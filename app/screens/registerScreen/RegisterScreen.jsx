@@ -1,12 +1,9 @@
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
-<<<<<<< HEAD:screens/RegisterForm.jsx
-import LoginForm from './LoginForm';
-=======
+import { Link, useNavigation } from '@react-navigation/native';
 import RegisterSchema from '../../validator/RegisterValidator';
->>>>>>> 79a7e279bdfe8e90b11d708677c51c4d1a121f49:app/screens/registerScreen/RegisterScreen.jsx
+import Colors from '../../utils/Colors';
 
 const RegisterScreen = () => {
 
@@ -14,15 +11,15 @@ const RegisterScreen = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Sign up your account</Text>
             <Formik
                 initialValues={{ username: '', password: '', confirmPassword: '', email: '', fullName: '', address: '', mobilePhone: '' }}
                 validationSchema={RegisterSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     axios.post('http://10.10.100.236:8089/auth/register', values)
                         .then(response => {
-                            console.log(response.data);
                             setSubmitting(false);
-                            navigation.navigate(<LoginForm />);
+                            navigation.navigate('Login');
                         })
                         .catch(error => {
                             console.log(error);
@@ -33,92 +30,109 @@ const RegisterScreen = () => {
 
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View>
-                        <Text>Username</Text>
+                        <Text style={styles.titleInput}>Username
+                            <Text style={styles.error}> *</Text>
+                            {errors.username && touched.username ? (
+                                <Text style={styles.error}> {errors.username}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('username')}
                             onBlur={handleBlur('username')}
                             value={values.username}
-                            placeholder="username"
+                            placeholder="Enter your username"
                         />
-                        {errors.username && touched.username ? (
-                            <Text style={styles.error}>{errors.username}</Text>
-                        ) : null}
 
-                        <Text>Password</Text>
+                        <Text style={styles.titleInput}>Password
+                            <Text style={styles.error}> *</Text>
+                            {errors.password && touched.password ? (
+                                <Text style={styles.error}> {errors.password}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
                             value={values.password}
-                            placeholder="password"
+                            placeholder="Enter your password"
                             secureTextEntry
                         />
-                        {errors.password && touched.password ? (
-                            <Text style={styles.error}>{errors.password}</Text>
-                        ) : null}
 
-                        <Text>Confirm Password</Text>
+                        <Text style={styles.titleInput}>Confirm Password
+                            <Text style={styles.error}> *</Text>
+                            {errors.confirmPassword && touched.confirmPassword ? (
+                                <Text style={styles.error}> {errors.confirmPassword}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('confirmPassword')}
                             onBlur={handleBlur('confirmPassword')}
                             value={values.confirmPassword}
-                            placeholder="confirm password"
+                            placeholder="Confirm your password"
                             secureTextEntry
                         />
-                        {errors.confirmPassword && touched.confirmPassword ? (
-                            <Text style={styles.error}>{errors.confirmPassword}</Text>
-                        ) : null}
 
-                        <Text>Email</Text>
+                        <Text style={styles.titleInput}>Email
+                            <Text style={styles.error}> *</Text>
+                            {errors.email && touched.email ? (
+                                <Text style={styles.error}> {errors.email}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('email')}
                             onBlur={handleBlur('email')}
                             value={values.email}
-                            placeholder="email"
+                            placeholder="Enter your email"
                         />
-                        {errors.email && touched.email ? (
-                            <Text style={styles.error}>{errors.email}</Text>
-                        ) : null}
 
-                        <Text>Full Name</Text>
+                        <Text style={styles.titleInput}>Full Name
+                            <Text style={styles.error}> *</Text>
+                            {errors.fullName && touched.fullName ? (
+                                <Text style={styles.error}> {errors.fullName}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('fullName')}
                             onBlur={handleBlur('fullName')}
                             value={values.fullName}
-                            placeholder="fullName"
+                            placeholder="Enter your full name"
                         />
-                        {errors.fullName && touched.fullName ? (
-                            <Text style={styles.error}>{errors.fullName}</Text>
-                        ) : null}
 
-                        <Text>Address</Text>
+                        <Text style={styles.titleInput}>Address
+                            <Text style={styles.error}> *</Text>
+                            {errors.address && touched.address ? (
+                                <Text style={styles.error}> {errors.address}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('address')}
                             onBlur={handleBlur('address')}
                             value={values.address}
-                            placeholder="address"
+                            placeholder="Enter your street address"
                         />
-                        {errors.address && touched.address ? (
-                            <Text style={styles.error}>{errors.address}</Text>
-                        ) : null}
 
-                        <Text>Mobile Phone</Text>
+                        <Text style={styles.titleInput}>Mobile Phone
+                            <Text style={styles.error}> *</Text>
+                            {errors.mobilePhone && touched.mobilePhone ? (
+                                <Text style={styles.error}> {errors.mobilePhone}</Text>
+                            ) : null}
+                        </Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={handleChange('mobilePhone')}
                             onBlur={handleBlur('mobilePhone')}
                             value={values.mobilePhone}
-                            placeholder="mobile phone"
+                            placeholder="Enter your mobile phone"
                         />
-                        {errors.mobilePhone && touched.mobilePhone ? (
-                            <Text style={styles.error}>{errors.mobilePhone}</Text>
-                        ) : null}
-                        <Button style={styles.button} onPress={handleSubmit} title="Submit" />
+                        <Text style={{ color: Colors.PRIMARY_BLACK, marginBottom: 10, marginTop: 5 }}>Already have a account? <Link to={{ screen: 'Login'}} style={{ color:Colors.SOFT }}>Sign in</Link></Text>
+                        <TouchableOpacity onPress={handleSubmit}>
+                            <Text style={styles.buttonRegister}>Register</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
 
@@ -133,16 +147,37 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 20,
     },
+    title: {
+        fontSize: 20,
+        fontWeight: "500",
+        textAlign: "center",
+        color: Colors.SOFT,
+        marginBottom: 5,
+    },
+    titleInput: {
+        color: Colors.SOFT,
+    },
     input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 5,
         padding: 10,
+        height: 40,
+        borderWidth: 1,
+        borderColor: Colors.SOFT,
+        borderRadius: 5,
+        color: Colors.PRIMARY_BLACK,
+        marginTop: 5,
     },
     error: {
-        color: 'red',
-        marginBottom: 10,
+        color: '#f67167',
+    },
+    buttonRegister: {
+        width: 80,
+        height: 35,
+        backgroundColor: Colors.SOFT,
+        color: Colors.WHITE,
+        borderRadius: 5,
+        textAlign: 'center',
+        paddingTop: 7,
     },
 });
 
